@@ -1,4 +1,5 @@
 # BrunoJumps
+Check it out here: [Play Live](https://gelsonm.github.io/BrunoJumps/)
 
 **Bruno Jumps** is a platformer game implemented in Python using the Pygame library. This README provides an overview of the code and its functionality.
 
