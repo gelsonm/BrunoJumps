@@ -1,11 +1,12 @@
+import asyncio
 import os
 import random
 import math
 import pygame
 from os import listdir
 from os.path import isfile, join
-pygame.init()
 
+pygame.init()
 pygame.display.set_caption("Platformer")
 
 WIDTH, HEIGHT = 1000, 800
@@ -79,7 +80,7 @@ class Player(pygame.sprite.Sprite):
         if self.jump_count == 1:
             self.fall_count = 0
 
-    def move(self, dx, dy):
+    async def move(self, dx, dy):
         self.rect.x += dx
         self.rect.y += dy
 
@@ -98,9 +99,9 @@ class Player(pygame.sprite.Sprite):
             self.direction = "right"
             self.animation_count = 0
 
-    def loop(self, fps):
+    async def loop(self, fps):
         self.y_vel += min(1, (self.fall_count / fps) * self.GRAVITY)
-        self.move(self.x_vel, self.y_vel)
+        await self.move(self.x_vel, self.y_vel)
 
         if self.hit:
             self.hit_count += 1
@@ -109,7 +110,7 @@ class Player(pygame.sprite.Sprite):
             self.hit_count = 0
 
         self.fall_count += 1
-        self.update_sprite()
+        await self.update_sprite()
 
     def landed(self):
         self.fall_count = 0
@@ -120,7 +121,7 @@ class Player(pygame.sprite.Sprite):
         self.count = 0
         self.y_vel *= -1
 
-    def update_sprite(self):
+    async def update_sprite(self):
         sprite_sheet = "idle"
         if self.hit:
             sprite_sheet = "hit"
@@ -140,9 +141,9 @@ class Player(pygame.sprite.Sprite):
                         self.ANIMATION_DELAY) % len(sprites)
         self.sprite = sprites[sprite_index]
         self.animation_count += 1
-        self.update()
+        await self.update()
 
-    def update(self):
+    async def update(self):
         self.rect = self.sprite.get_rect(topleft=(self.rect.x, self.rect.y))
         self.mask = pygame.mask.from_surface(self.sprite)
 
@@ -188,7 +189,7 @@ class Fire(Object):
     def off(self):
         self.animation_name = "off"
 
-    def loop(self):
+    async def loop(self):
         sprites = self.fire[self.animation_name]
         sprite_index = (self.animation_count //
                         self.ANIMATION_DELAY) % len(sprites)
@@ -277,7 +278,7 @@ def handle_move(player, objects):
             player.make_hit()
 
 
-def main(window):
+async def main(window):
     clock = pygame.time.Clock()
     background, bg_image = get_background("Blue.png")
 
@@ -307,8 +308,8 @@ def main(window):
                 if event.key == pygame.K_SPACE and player.jump_count < 2:
                     player.jump()
 
-        player.loop(FPS)
-        fire.loop()
+        await player.loop(FPS)
+        await fire.loop()
         handle_move(player, objects)
         draw(window, background, bg_image, player, objects, offset_x)
 
@@ -316,9 +317,9 @@ def main(window):
                 (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
             offset_x += player.x_vel
 
-    pygame.quit()
-    quit()
+        pygame.display.update()  # Update the display inside the game loop
 
+        await asyncio.sleep(0) 
 
 if __name__ == "__main__":
-    main(window)
+    asyncio.run(main(window))
