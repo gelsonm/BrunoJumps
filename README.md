@@ -6,11 +6,11 @@ Check it out here: [Play Live](https://gelsonm.github.io/BrunoJumps/)
 ![Screenshot (1398)](https://github.com/gelsonm/BrunoJumps/assets/37416550/ba77a9ae-af52-48d7-939b-d4ef495f9d96)
 
 ## Table of Contents
-* Description
-* Installation
-* Usage
-* Contributing
-* License
+* **Description**
+* **Installation**
+* **Usage**
+* **Contributing**
+* **License**
 
 ## Description
 **Bruno Jumps** is a 2D platformer game featuring a character named Bruno. The game is implemented using Python and the Pygame library. Bruno can move left and right, jump, and interact with various game objects.
