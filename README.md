@@ -23,3 +23,13 @@ To run this game on your local machine, follow these steps:
 4. Install Pygbag library by running pip install pygbag.
 5. Navigate to the project directory using cd Bruno-Jumps.
 6. Run the game by executing python -m pygbag BrunoJumps in your terminal.
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project, please follow these guidelines:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and ensure the code is well-documented.
+4. Test your changes thoroughly.
+5. Create a pull request to the main branch of this repository.
